@@ -2,7 +2,7 @@ const http = require("http");
 const express = require('express');
 const app = express();
 const clientPath = `${__dirname}/client`;
-// app.use(express.static(clientPath));
+app.use(express.static(clientPath));
 var tools = require('./tools');
 
 const GameClient = require('./gameClient');
@@ -16,9 +16,9 @@ const wsServer = new websocketServer({
     "httpServer": httpServer
 });
 
-app.get('/', function(req, res){
-    res.render(clientPath + '/index.ejs',{port:process.env.PORT});
-});
+// app.get('/', function(req, res){
+//     res.render(clientPath + '/index.ejs',{port:process.env.PORT});
+// });
 var clients = [];
 var games = {};
 
