@@ -21,7 +21,7 @@ const wsServer = new websocketServer({
     "httpServer": httpServer
 });
 
-const io = socketio(server);
+const io = socketio(httpServer);
 
 var clients = [];
 var games = {};
