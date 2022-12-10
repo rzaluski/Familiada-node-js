@@ -12,7 +12,8 @@ const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
 httpServer.listen(process.env.PORT || 3000, (s) => {
     console.log("Running on port " + process.env.PORT || 3000);
-    console.log(s);
+    console.log(httpServer);
+    console.log(httpServer.address());
 });
 
 const wsServer = new websocketServer({
