@@ -16,17 +16,21 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
+console.log(1);
 httpServer.listen(process.env.P0RT || 3000, () => console.log("Running on port " + process.env.P0RT));
+console.log(2);
 
 const wsServer = new websocketServer({
     "httpServer": httpServer
 });
+console.log(3);
 
 var clients = [];
 var games = {};
 
 const fs = require('fs');
 const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
+console.log(4);
 
 wsServer.on("request", request => {
     console.log("New connection");
