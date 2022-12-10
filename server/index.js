@@ -10,13 +10,15 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-console.log(process.env.PORT);
 httpServer.listen(process.env.PORT || 3000, () => console.log("Running on port " + process.env.PORT || 3000));
 
 const wsServer = new websocketServer({
     "httpServer": httpServer
 });
 
+app.get('/', function(req, res){
+    res.render('index.html',{port:process.env.PORT});
+});
 var clients = [];
 var games = {};
 
