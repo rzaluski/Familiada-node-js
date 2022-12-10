@@ -1,4 +1,82 @@
-let ws = new WebSocket("ws://0.0.0.0:" + 7059);
+function setUp(port)
+{
+    let ws = new WebSocket("ws://0.0.0.0:" + port.toString());
+    ws.onmessage = message => {
+        const response = JSON.parse(message.data);
+        console.log(response);
+        if(response.method === "connected"){
+            console.log("Connected to server");
+            $('#btnCreateGame').prop('disabled', false);
+            $('#btnJoinGame').prop('disabled', false);
+        }
+        if(response.method === "gameCreated"){
+            $("#divStart").hide();
+            $('#btnCreateGame').prop('disabled', false);
+            $('#btnJoinGame').prop('disabled', false);
+            console.log("created game with id: " + response.gameId);
+        }
+        if(response.method === "joinedGame"){
+            const gameState = response.gameState;
+            gameId = response.gameId;
+            $("#divStart").hide();
+            $("#divGameOperator").show();
+            if(gameState === FamiliadaGameStates.PickingQuestion)
+            {
+                pickQuestion = response.question;
+                createQuestionPanel(response.question, false);
+            }
+            console.log(response);
+        }
+        if(response.method === "gameOperatorExists"){
+            console.log("Game already has operator");
+        }
+        if(response.method === "gameNotFound"){
+            console.log("Game not found");
+        }
+        if(response.method == "drewQuestion")
+        {
+            $("#divDrawQuestion").show();
+            $('#btnSubmitQuestion').prop('disabled', false);
+            $('#btnDrawQuestion').prop('disabled', false);
+            pickQuestion = response.question;
+            createQuestionPanel(response.question, false);
+        }
+        if(response.method == "showQuestion")
+        {
+            showQuestion(response.question);
+        }
+        if(response.method == "questionSubmitted")
+        {
+            createQuestionPanel(response.question, true);
+        }
+        if(response.method == "showAnswer")
+        {
+            updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
+            showAnswer(response.answerNumber, response.answerText, response.answerPoints, response.endRound, response.isRoundOn);
+        }
+        if(response.method == "isRoundOn")
+        {
+            if(response.isRoundOn == false)
+            {
+            }
+        }
+        if(response.method == "endRound")
+        {
+            var btnWrongQuestion = document.getElementById('btnWrongQuestion');
+            btnWrongQuestion.parentNode.removeChild(btnWrongQuestion);
+        }
+        if(response.method == "showSmallX")
+        {
+            updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
+            showSmallX(response.team, response.endRound);
+        }
+        if(response.method == "showBigX")
+        {
+            updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
+            showBigX(response.team, response.clearPanelsDelay, response.endRound);
+        }
+    }
+}
 const FamiliadaGameStates = {
     PickingQuestion: "PickingQuestion"
 }
@@ -6,81 +84,7 @@ let gameId = null;
 let pickQuestion = null;
 let currentQuestion = null;
 let firstAnsweringTeam = null;
-ws.onmessage = message => {
-    const response = JSON.parse(message.data);
-    console.log(response);
-    if(response.method === "connected"){
-        console.log("Connected to server");
-        $('#btnCreateGame').prop('disabled', false);
-        $('#btnJoinGame').prop('disabled', false);
-    }
-    if(response.method === "gameCreated"){
-        $("#divStart").hide();
-        $('#btnCreateGame').prop('disabled', false);
-        $('#btnJoinGame').prop('disabled', false);
-        console.log("created game with id: " + response.gameId);
-    }
-    if(response.method === "joinedGame"){
-        const gameState = response.gameState;
-        gameId = response.gameId;
-        $("#divStart").hide();
-        $("#divGameOperator").show();
-        if(gameState === FamiliadaGameStates.PickingQuestion)
-        {
-            pickQuestion = response.question;
-            createQuestionPanel(response.question, false);
-        }
-        console.log(response);
-    }
-    if(response.method === "gameOperatorExists"){
-        console.log("Game already has operator");
-    }
-    if(response.method === "gameNotFound"){
-        console.log("Game not found");
-    }
-    if(response.method == "drewQuestion")
-    {
-        $("#divDrawQuestion").show();
-        $('#btnSubmitQuestion').prop('disabled', false);
-        $('#btnDrawQuestion').prop('disabled', false);
-        pickQuestion = response.question;
-        createQuestionPanel(response.question, false);
-    }
-    if(response.method == "showQuestion")
-    {
-        showQuestion(response.question);
-    }
-    if(response.method == "questionSubmitted")
-    {
-        createQuestionPanel(response.question, true);
-    }
-    if(response.method == "showAnswer")
-    {
-        updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
-        showAnswer(response.answerNumber, response.answerText, response.answerPoints, response.endRound, response.isRoundOn);
-    }
-    if(response.method == "isRoundOn")
-    {
-        if(response.isRoundOn == false)
-        {
-        }
-    }
-    if(response.method == "endRound")
-    {
-        var btnWrongQuestion = document.getElementById('btnWrongQuestion');
-        btnWrongQuestion.parentNode.removeChild(btnWrongQuestion);
-    }
-    if(response.method == "showSmallX")
-    {
-        updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
-        showSmallX(response.team, response.endRound);
-    }
-    if(response.method == "showBigX")
-    {
-        updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
-        showBigX(response.team, response.clearPanelsDelay, response.endRound);
-    }
-}
+
 function showQuestion(currentQuestion)
 {
     $("#divHost").show();
