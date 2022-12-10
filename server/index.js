@@ -7,6 +7,8 @@ app.get('/test', (req, res) => {
     console.log('test');
     res.send('test');
 });
+app.listen(4321);
+
 var tools = require('./tools');
 
 const GameClient = require('./gameClient');
