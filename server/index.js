@@ -3,7 +3,10 @@ const express = require('express');
 const app = express();
 const clientPath = `${__dirname}/../client`;
 app.use(express.static(clientPath));
-
+app.get('/test', (req, res) => {
+    console.log('test');
+    res.send('test');
+});
 var tools = require('./tools');
 
 const GameClient = require('./gameClient');
@@ -11,7 +14,7 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-httpServer.listen(process.env.P0RT, () => console.log("Running on port " + process.env.P0RT));
+httpServer.listen(process.env.P0RT || 3000, () => console.log("Running on port " + process.env.P0RT));
 
 const wsServer = new websocketServer({
     "httpServer": httpServer
