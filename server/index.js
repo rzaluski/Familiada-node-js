@@ -22,7 +22,7 @@ const wsServer = new websocketServer({
 });
 
 const io = socketio(httpServer);
-
+console.log(io);
 var clients = [];
 var games = {};
 
