@@ -4,6 +4,7 @@ const app = express();
 const clientPath = `${__dirname}/client`;
 app.use(express.static(clientPath));
 var tools = require('./tools');
+const socketio = require('socket.io');
 
 const GameClient = require('./gameClient');
 const FamiliadaGame = require('./familiadaGame');
@@ -20,9 +21,8 @@ const wsServer = new websocketServer({
     "httpServer": httpServer
 });
 
-// app.get('/', function(req, res){
-//     res.render(clientPath + '/index.ejs',{port:process.env.PORT});
-// });
+const io = socketio(server);
+
 var clients = [];
 var games = {};
 

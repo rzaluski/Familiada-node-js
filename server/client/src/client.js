@@ -1,3 +1,4 @@
+const sock = io();
 function setUp(port)
 {
     let ws = new WebSocket("ws://0.0.0.0:" + port.toString());
