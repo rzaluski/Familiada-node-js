@@ -1,0 +1,98 @@
+@font-face {
+    font-family: 'FamiliadaFont';
+    src: url('/resources/subway-ticker.regular.ttf');
+}
+body{
+    background-color: white;
+}
+#divHost{
+    font-family: 'FamiliadaFont';
+    color: gold;
+    background-color: black;
+}
+.answerButton{
+    display: block;
+}
+#divHost div{
+    border: solid 1px black;
+}
+#divHost .row:first-child{
+    padding: 0;
+    margin: 0;
+}
+.row{
+    margin: 0;
+    padding: 0;
+}
+.top-panel{
+    height: 10vh;
+}
+.bottom-panel{
+    height: 90vh;
+}
+/* .top-line-height{
+    line-height: 10vh;
+}
+.bottom-line-height{
+    line-height: 90vh;
+} */
+.text-center{
+    text-align: center;
+    vertical-align: middle;
+}
+.span-points{
+    font-size: 3.5vw;
+}
+#divAnswers{
+    font-size: 3vw;
+    height: 100%;
+}
+.td1, .td2{
+    padding-right: 20px;
+}
+.teamPointsPanel{
+    height: 100%;
+}
+.wrongAnswerPanel{
+    height: 100%;
+    text-align: center;
+}
+#divRoundPoints{
+    height: 100%;
+}
+.div-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.img-small-x{
+    max-width: 100%;
+    margin-bottom: 20px;
+    max-height: 25vh;
+}
+.img-big-x{
+    max-width: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 60vh;
+    max-width: 10vw;
+}
+[class*="col-md-"]{
+    padding: 0;
+}
+#tbAnswers{
+    width: 100%;
+}
+.td2{
+    width: 99%;
+}
+.img-wrapper{
+    width: 100%;
+    text-align: center;
+}

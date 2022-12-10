@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Familiada</title>
+</head>
+<body>
+    <div id="divStart">
+        <button id="btnCreateGame" disabled="disabled">Utwórz nową grę</button>
+        <button id="btnJoinGame" disabled="disabled">Dołącz do gry</button>
+        <input id="inputGameId" placeholder="Id gry" />
+    </div>
+    <div id="divGameId">
+        <span id="spanGameId"></span>
+    </div>
+    <div id="divGameOperator" style="display:none;">
+        <span id="drewQuestion"></span>
+        <br/>
+        <div id="divDrawQuestion">
+            <button id="btnSubmitQuestion">Zatwierdź pytanie</button>
+            <button id="btnDrawQuestion">Wylosuj inne pytanie</button>
+        </div>
+        <div id="divFirstAnsweringTeam" style="display:none;">
+            <span>Zaznacz drużynę, która odpowiada jako pierwsza</span><br/>
+            <input type="radio" id="firstAnsweringTeamLeft" name="first_answering_team" value="Left" onclick="answeringTeamChange(this);" checked="false" >
+            <label for="firstAnsweringTeamLeft">Drużyna Lewa</label><br>
+            <input type="radio" id="firstAnsweringTeamRight" name="first_answering_team" value="Right" onclick="answeringTeamChange(this);" checked="false" >
+            <label for="firstAnsweringTeamRight">Drużyna Prawa</label><br>
+        </div>
+        <div id="divOperatorAnswers">
+
+        </div>
+    </div>
+    <div id="divHost" style="display: none">
+        <div class="row top-panel flex-nowrap">
+            <div class="col-md-12">
+                <div id="divRoundPoints" class="div-center">
+                    <span id="spanRoundPoints" class="span-points">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="row bottom-panel flex-nowrap">
+            <div class="col-md-1">
+                <div class="teamPointsPanel div-center">
+                    <span id="spanTeamLeftPoints" class="span-points">0</span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="wrongAnswerPanel">
+                    <div class="img-wrapper"><img id="smallXLeft1" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <div class="img-wrapper"><img id="smallXLeft2" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <div class="img-wrapper"><img id="smallXLeft3" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <img id="bigXLeft" src="img/bigX.png" style="display: none;" class="img-big-x"></img>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="divAnswers">
+                
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="wrongAnswerPanel">
+                    <div class="img-wrapper"><img id="smallXRight1" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <div class="img-wrapper"><img id="smallXRight2" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <div class="img-wrapper"><img id="smallXRight3" src="img/smallX.png" style="display: none;" class="img-small-x"></img></div>
+                    <img id="bigXRight" src="img/bigX.png" style="display: none;" class="img-big-x"></img>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="teamPointsPanel div-center">
+                    <span id="spanTeamRightPoints" class="span-points">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="src/client.js"></script>
+</body>
+</html>
