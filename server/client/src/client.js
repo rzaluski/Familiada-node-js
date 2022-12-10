@@ -1,4 +1,4 @@
-let ws = new WebSocket("ws://0.0.0.0:" + process.env.PORT || 3000);
+let ws = new WebSocket("ws://0.0.0.0:" + 7059);
 const FamiliadaGameStates = {
     PickingQuestion: "PickingQuestion"
 }
