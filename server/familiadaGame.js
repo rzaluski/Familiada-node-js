@@ -50,12 +50,12 @@ class FamiliadaGame{
             "method": "questionSubmitted",
             "question": this.currentQuestion
         };
-        this.gameOperator.connection.send(JSON.stringify(payLoad));
+        this.gameOperator.connection.emit(JSON.stringify(payLoad));
         let payLoad2 = {
             "method": "showQuestion",
             "question": this.currentQuestion
         };
-        this.host.connection.send(JSON.stringify(payLoad2));
+        this.host.connection.emit(JSON.stringify(payLoad2));
     }
     drawQuestion()
     {
@@ -63,7 +63,7 @@ class FamiliadaGame{
             "method": "drewQuestion",
             "question": this.getRandQuestion()
         };
-        this.gameOperator.connection.send(JSON.stringify(payLoad));
+        this.gameOperator.connection.emit(JSON.stringify(payLoad));
     }
     getRandQuestion()
     {
@@ -130,15 +130,15 @@ class FamiliadaGame{
             "teamLeftPoints": this.teamPoints[Team.Left],
             "teamRightPoints": this.teamPoints[Team.Right],
         };
-        this.host.connection.send(JSON.stringify(payLoad));
+        this.host.connection.emit(JSON.stringify(payLoad));
     }
-    sendIsRoundOn()
+    emitIsRoundOn()
     {
         let payLoad = {
             "method": "isRoundOn",
             "isRoundOn": this.isRoundOn
         };
-        this.gameOperator.connection.send(JSON.stringify(payLoad));
+        this.gameOperator.connection.emit(JSON.stringify(payLoad));
     }
     proceedCorrectAnswer(answerText)
     {
@@ -182,7 +182,7 @@ class FamiliadaGame{
                     this.endRound(this.currentAnsweringTeam);
                     endRound = true;
                 }
-                this.sendIsRoundOn();
+                this.emitIsRoundOn();
                 //UpdatePoints();
             }
             this.showAnswer(answerNumber, clearPanels, endRound);
@@ -202,7 +202,7 @@ class FamiliadaGame{
         let payLoad = {
             "method": "endRound",
         };
-        this.gameOperator.connection.send(JSON.stringify(payLoad));
+        this.gameOperator.connection.emit(JSON.stringify(payLoad));
         // PlaySoundWithDelay(Properties.Resources.roundsoundwithclaps, 1000);
     }
     showSmallX(team, endRound)
@@ -215,7 +215,7 @@ class FamiliadaGame{
             "teamLeftPoints": this.teamPoints[Team.Left],
             "teamRightPoints": this.teamPoints[Team.Right],
         };
-        this.host.connection.send(JSON.stringify(payLoad));
+        this.host.connection.emit(JSON.stringify(payLoad));
     }
     showBigX(team, clearPanelsDelay, endRound)
     {
@@ -228,7 +228,7 @@ class FamiliadaGame{
             "teamLeftPoints": this.teamPoints[Team.Left],
             "teamRightPoints": this.teamPoints[Team.Right],
         };
-        this.host.connection.send(JSON.stringify(payLoad));
+        this.host.connection.emit(JSON.stringify(payLoad));
     }
     proceedUncorrectAnswer()
     {
@@ -282,7 +282,7 @@ class FamiliadaGame{
         {
             this.showBigX(teamAnswered, clearPanelsDelay, endRound);
         }
-        this.sendIsRoundOn();
+        this.emitIsRoundOn();
         // PlaySound(Properties.Resources.wronganswer);
     }
     getAnswerNumber(answerText)
