@@ -1,7 +1,7 @@
 const sock = io();
 sock.onAny(message =>{
     console.log(message);
-    const response = JSON.parse(message.data);
+    const response = JSON.parse(message);
         console.log(response);
         if(response.method === "connected"){
             console.log("Connected to server");
