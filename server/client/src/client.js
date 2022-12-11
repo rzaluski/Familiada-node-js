@@ -201,7 +201,7 @@ btnCreateGame.addEventListener('click', () =>
     const payLoad = {
         "method": "createGame"
     };
-    ws.send(JSON.stringify(payLoad));
+    sock.emit(JSON.stringify(payLoad));
 });
 
 const btnJoinGame = document.getElementById("btnJoinGame");
@@ -212,7 +212,7 @@ btnJoinGame.addEventListener('click', () =>
         "method": "joinGame",
         "gameId": input.value
     };
-    ws.send(JSON.stringify(payLoad));
+    sock.emit(JSON.stringify(payLoad));
 });
 
 const btnDrawQuestion = document.getElementById("btnDrawQuestion");
@@ -223,7 +223,7 @@ btnDrawQuestion.addEventListener('click', () =>
         "method": "drawQuestion",
         "gameId": gameId
     };
-    ws.send(JSON.stringify(payLoad));
+    sock.emit(JSON.stringify(payLoad));
 });
 
 const btnSubmitQuestion = document.getElementById("btnSubmitQuestion");
@@ -235,7 +235,7 @@ btnSubmitQuestion.addEventListener('click', () =>
         "gameId": gameId,
         "question": pickQuestion.QuestionText
     };
-    ws.send(JSON.stringify(payLoad));
+    sock.emit(JSON.stringify(payLoad));
 });
 
 function createQuestionPanel(question, enabled)
@@ -258,7 +258,7 @@ function createQuestionPanel(question, enabled)
                 "answerText": "WrongAnswer",
                 "firstAnsweringTeam": firstAnsweringTeam
             };
-            ws.send(JSON.stringify(payLoad));
+            sock.emit(JSON.stringify(payLoad));
             $("#divFirstAnsweringTeam").hide();
         });
         divOperatorAnswers.appendChild(btnWrongQuestion);
@@ -278,7 +278,7 @@ function createQuestionPanel(question, enabled)
                 "answerText": answer.AnswerText,
                 "firstAnsweringTeam": firstAnsweringTeam
             };
-            ws.send(JSON.stringify(payLoad));
+            sock.emit(JSON.stringify(payLoad));
             button.parentNode.removeChild(button);
             $("#divFirstAnsweringTeam").hide();
         });

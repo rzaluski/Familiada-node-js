@@ -39,8 +39,9 @@ io.on("connection", connection => {
     connection.emit(JSON.stringify(payLoad));
     console.log(Object.keys(clients).length + " clients connected");
 
-    connection.on("message", message => {
-        const result = JSON.parse(message.utf8Data);
+    connection.onAny(message => {
+        console.log(message);
+        const result = JSON.parse(message);
         const client = getClient(connection);
         if(result.method === "createGame")
         {
