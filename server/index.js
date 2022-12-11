@@ -11,27 +11,22 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-httpServer.listen(process.env.PORT || 3000, (s) => {
-    console.log("Running on port " + process.env.PORT || 3000);
-    console.log(httpServer);
-    console.log(httpServer.address());
-});
 
-const wsServer = new websocketServer({
-    "httpServer": httpServer
+httpServer.listen(process.env.PORT, (s) => {
+    console.log("Running on port " + process.env.PORT);
 });
 
 const io = socketio(httpServer);
-console.log(io);
+
 var clients = [];
 var games = {};
 
 const fs = require('fs');
 const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
 
-wsServer.on("request", request => {
+io.on("connection", connection => {
     console.log("New connection");
-    const connection = request.accept(null, request.origin);
+
     connection.on("close", () => removeClient(connection));
     // connection.on("connection", () => console.log("connection"));
     // connection.on("open", () => {
@@ -41,7 +36,7 @@ wsServer.on("request", request => {
     const payLoad = {
         "method": "connected"
     };
-    connection.send(JSON.stringify(payLoad));
+    connection.emit(JSON.stringify(payLoad));
     console.log(Object.keys(clients).length + " clients connected");
 
     connection.on("message", message => {
@@ -56,7 +51,7 @@ wsServer.on("request", request => {
                 "method": "gameCreated",
                 "gameId": game.id
             };
-            connection.send(JSON.stringify(payLoad));
+            connection.emit(JSON.stringify(payLoad));
         }
         if(result.method === "joinGame")
         {
@@ -76,7 +71,7 @@ wsServer.on("request", request => {
                             "question": game.getRandQuestion()
                         };
                     }
-                    connection.send(JSON.stringify(payLoad));
+                    connection.emit(JSON.stringify(payLoad));
                 }
                 else
                 {
@@ -84,7 +79,7 @@ wsServer.on("request", request => {
                         "method": "gameOperatorExists",
                         "gameId": game.id
                     };
-                    connection.send(JSON.stringify(payLoad));
+                    connection.emit(JSON.stringify(payLoad));
                 }
             }
             else
@@ -92,7 +87,7 @@ wsServer.on("request", request => {
                 const payLoad = {
                     "method": "gameNotFound"
                 };
-                connection.send(JSON.stringify(payLoad));
+                connection.emit(JSON.stringify(payLoad));
             }
         }
         if(result.method == "drawQuestion")

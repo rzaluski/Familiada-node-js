@@ -1,9 +1,7 @@
 const sock = io();
-function setUp(port)
-{
-    let ws = new WebSocket("ws://0.0.0.0:" + port.toString());
-    ws.onmessage = message => {
-        const response = JSON.parse(message.data);
+sock.on(message =>{
+    console.log(message);
+    const response = JSON.parse(message.data);
         console.log(response);
         if(response.method === "connected"){
             console.log("Connected to server");
@@ -76,8 +74,7 @@ function setUp(port)
             updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
             showBigX(response.team, response.clearPanelsDelay, response.endRound);
         }
-    }
-}
+});
 const FamiliadaGameStates = {
     PickingQuestion: "PickingQuestion"
 }
