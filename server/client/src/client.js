@@ -1,5 +1,5 @@
 const sock = io();
-sock.on(message =>{
+sock.onAny(message =>{
     console.log(message);
     const response = JSON.parse(message.data);
         console.log(response);
