@@ -12,7 +12,8 @@ sock.onAny(message =>{
             $("#divStart").hide();
             $('#btnCreateGame').prop('disabled', false);
             $('#btnJoinGame').prop('disabled', false);
-            console.log("created game with id: " + response.gameId);
+            $("#divGameId").show();
+            $("#spanGameId").text("Twój kod gry: " + response.gameId);
         }
         if(response.method === "joinedGame"){
             const gameState = response.gameState;
@@ -42,6 +43,7 @@ sock.onAny(message =>{
         }
         if(response.method == "showQuestion")
         {
+            $("#divGameId").hide();
             showQuestion(response.question);
         }
         if(response.method == "questionSubmitted")
@@ -51,13 +53,7 @@ sock.onAny(message =>{
         if(response.method == "showAnswer")
         {
             updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
-            showAnswer(response.answerNumber, response.answerText, response.answerPoints, response.endRound, response.isRoundOn);
-        }
-        if(response.method == "isRoundOn")
-        {
-            if(response.isRoundOn == false)
-            {
-            }
+            showAnswer(response.answerNumber, response.answerText, response.answerPoints, response.endRound, response.isRoundOn, response.clearPanels);
         }
         if(response.method == "endRound")
         {
@@ -106,6 +102,10 @@ function showQuestion(currentQuestion)
         span1.id = "span1Answer" + answerNumber;
         td1.appendChild(span1);
 
+        var divHoverAnswer = document.createElement('div');
+        divHoverAnswer.id = "divHoverAnswer" + answerNumber;
+        divHoverAnswer.classList.add("hoverAnswer");
+        td2.appendChild(divHoverAnswer);
         var span2 = document.createElement('span');
         span2.innerText = ".........................................................";
         span2.id = "span2Answer" + answerNumber;
@@ -139,6 +139,8 @@ function hideX()
 {
     $(".img-small-x").hide();
     $(".img-big-x").hide();
+    $(".hover").removeClass("animate");
+    $(".hover").hide();
 }
 function showSmallX(team, endRound)
 {
@@ -148,11 +150,14 @@ function showSmallX(team, endRound)
         playAudioWithDelay('resources/roundsoundwithclaps.wav', 1000);
     }
     var imgName = "smallX" + team;
+    var divHoverName = "divHover" + team;
     for(let i = 1; i < 4; i++)
     {
         if($("#" + imgName + i.toString()).is(":hidden"))
         {
             $("#" + imgName + i.toString()).show();
+            $("#" + divHoverName + i.toString()).show();
+            $("#" + divHoverName + i.toString()).addClass("animate");
             return;
         }
     }
@@ -161,7 +166,12 @@ function showSmallX(team, endRound)
 function showBigX(team, clearPanelsDelay, endRound)
 {
     var imgName = "bigX" + team;
+    var divHoverName = "divHoverBig" + team;
     $("#" + imgName).show();
+    $("#" + divHoverName).show();
+    $("#" + divHoverName).addClass("animate");
+    setTimeout(() => {$("#" + divHoverName).removeClass("animate");}, 500);
+
     if(clearPanelsDelay == true)
     {
         setTimeout(hideX, 3000);
@@ -172,10 +182,13 @@ function showBigX(team, clearPanelsDelay, endRound)
         playAudioWithDelay('resources/roundsoundwithclaps.wav', 1000);
     }
 }
-function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn)
+function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn, clearPanelsDelay)
 {
-    $("#span2Answer" + (answerNumber + 1).toString()).text(answerText);
+    $("#span2Answer" + (answerNumber + 1).toString()).text(answerText.toLowerCase().replace("ą", "a").replace("ć", "c").replace("ż", "z").replace("ź", "z").replace("ń", "n").replace("ś", "s").replace("ł", "l").replace("ę", "e").replace("ó", "o").toUpperCase());
     $("#span3Answer" + (answerNumber + 1).toString()).text(answerPoints);
+    var divHoverName = "divHoverAnswer" + (answerNumber + 1).toString();
+    $("#" + divHoverName).addClass("animate");
+    setTimeout(() => {$("#" + divHoverName).removeClass("animate");}, 500);
     playAudio('resources/correctanswer.wav');
     if(endRound)
     {
@@ -185,6 +198,10 @@ function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn)
     if(isRoundOn)
     {
         playAudioWithDelay('resources/claps.wav', 1000);
+    }
+    if(clearPanelsDelay == true)
+    {
+        setTimeout(hideX, 3000);
     }
 }
 function updatePoints(roundPoints, teamLeftPoints, teamRightPoints)

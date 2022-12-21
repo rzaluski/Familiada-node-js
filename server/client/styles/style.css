@@ -47,8 +47,11 @@ body{
     font-size: 3vw;
     height: 100%;
 }
-.td1, .td2{
+.td1{
     padding-right: 20px;
+}
+.td3{
+    padding-left: 20px;
 }
 .teamPointsPanel{
     height: 100%;
@@ -89,10 +92,84 @@ body{
 #tbAnswers{
     width: 100%;
 }
-.td2{
-    width: 99%;
-}
 .img-wrapper{
     width: 100%;
     text-align: center;
+}
+
+.img-wrapper, .img-wrapper-big {
+    position: relative;
+}
+.img-wrapper-big{
+    width: 100%;
+    height: 100%;
+}
+
+.img-wrapper .hover.animate, .img-wrapper-big .hover.animate{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: black;
+    bottom: 0;
+    -webkit-animation-name: animate-height;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+    animation-name: animate-height;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    z-index: 2;
+}
+
+
+
+@keyframes animate-height {
+    0% {
+        height: 100%;
+    }
+    100% {
+        height: 0% ;
+    }
+}
+
+@-webkit-keyframes animate-height
+ {
+    0% {
+        height: 100%;
+    }
+    100% {
+        height: 0%;
+    }
+}
+
+@keyframes animate-width {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+
+@-webkit-keyframes animate-width
+ {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+.hoverAnswer.animate{
+    position: absolute;
+    height: 4vw;
+    width: 100%;
+    background: black;
+    right: 0;
+    -webkit-animation-name: animate-width;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+    animation-name: animate-width;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    z-index: 2;
 }

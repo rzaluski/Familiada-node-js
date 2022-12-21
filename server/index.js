@@ -11,9 +11,9 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-
-httpServer.listen(process.env.PORT, (s) => {
-    console.log("Running on port " + process.env.PORT);
+const port = process.env.PORT || 9090;
+httpServer.listen(port, (s) => {
+    console.log("Running on port " + port);
 });
 
 const io = socketio(httpServer);

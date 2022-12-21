@@ -158,6 +158,7 @@ class FamiliadaGame{
                 if (this.totalAnswers == 1 && answerNumber == 0)
                 {
                     this.teamWonBattle = this.currentAnsweringTeam;
+                    clearPanels = true;
                 }
                 else if (this.totalAnswers == 1 && answerNumber > 0)
                 {
