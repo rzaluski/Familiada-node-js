@@ -241,13 +241,13 @@ body{
     background-color: black;
     border: gold solid 1px;
     margin-top: 20px;
-    height: 35px;
+    min-height: 35px;
 }
 .gold-button-container button:disabled{
     color: rgb(128, 125, 114);
     border: rgb(128, 125, 114) solid 1px;
     margin-top: 20px;
-    height: 35px;
+    min-height: 35px;
 }
 #divDrawQuestion button{
     padding-left: 10px;
