@@ -3,15 +3,15 @@
     src: url('/resources/subway-ticker.regular.ttf');
 }
 body{
-    background-color: white;
+    background-color: black;
 }
 #divHost{
     font-family: 'FamiliadaFont';
     color: gold;
-    background-color: black;
 }
 .answerButton{
     display: block;
+    width: 100%;
 }
 #divHost div{
     border: solid 1px black;
@@ -175,4 +175,81 @@ body{
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     z-index: 2;
+}
+.center-screen{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+#btnCreateGame{
+    width: 100%;
+    margin-bottom: 5px;
+}
+#btnJoinGame{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#inputGameId{
+    width: 200px;
+}
+#divStart{
+    font-size: 30px;
+    top: 40%;
+}
+#divStart button{
+    background-color: black;
+    color: gold;
+    border: gold solid 1px;
+}
+#inputGameId{
+    background-color: black;
+    color: gold;
+    border: gold solid 1px;
+}
+.familiada-font{
+    font-family: 'FamiliadaFont';
+}
+.gold{
+    color: gold;
+}
+#spanGameId{
+    font-size: 40px;
+}
+#divFamiliada{
+    font-size: 50px;
+    text-align: center;
+}
+#divGameOperator{
+    text-align: center;
+    margin-top: 20px;
+}
+.center-screen-top{
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    -webkit-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+}
+#drewQuestion{
+    font-weight: bold;
+    font-size: 19px;
+}
+.gold-button-container button{
+    color: gold;
+    background-color: black;
+    border: gold solid 1px;
+    margin-top: 20px;
+    height: 35px;
+}
+.gold-button-container button:disabled{
+    color: rgb(128, 125, 114);
+    border: rgb(128, 125, 114) solid 1px;
+    margin-top: 20px;
+    height: 35px;
+}
+#divDrawQuestion button{
+    padding-left: 10px;
+    padding-right: 10px;
 }

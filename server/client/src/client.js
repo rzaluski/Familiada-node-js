@@ -1,4 +1,9 @@
 const sock = io();
+const wrongAnswerAudio = new Audio('resources/wronganswer.wav');
+const roundsoundAudio = new Audio('resources/roundsound.wav');
+const roundSoundWithClapsAudio = new Audio('resources/roundsoundwithclaps.wav');
+const clapsAudio = new Audio('resources/claps.wav');
+const correntAnswerAudio = new Audio('resources/correctanswer.wav');
 sock.onAny(message =>{
     console.log(message);
     const response = JSON.parse(message);
@@ -13,7 +18,7 @@ sock.onAny(message =>{
             $('#btnCreateGame').prop('disabled', false);
             $('#btnJoinGame').prop('disabled', false);
             $("#divGameId").show();
-            $("#spanGameId").text("Twój kod gry: " + response.gameId);
+            $("#spanGameId").text("KOD GRY: " + response.gameId);
         }
         if(response.method === "joinedGame"){
             const gameState = response.gameState;
@@ -124,15 +129,19 @@ function showQuestion(currentQuestion)
     });
     $("#divAnswers").append(table);
     hideX();
-    playAudio('resources/roundsound.wav');
+    playStaticAudio(roundsoundAudio);
 }
-function playAudioWithDelay(path, delay)
+function playAudioWithDelay(audio, delay)
 {
-    setTimeout(playAudio, delay, path);
+    setTimeout(playStaticAudio, delay, audio);
 }
 function playAudio(path)
 {
     var audio = new Audio(path);
+    audio.play();
+}
+function playStaticAudio(audio)
+{
     audio.play();
 }
 function hideX()
@@ -144,10 +153,10 @@ function hideX()
 }
 function showSmallX(team, endRound)
 {
-    playAudio('resources/wronganswer.wav');
+    playStaticAudio(wrongAnswerAudio);
     if(endRound)
     {
-        playAudioWithDelay('resources/roundsoundwithclaps.wav', 1000);
+        playAudioWithDelay(roundSoundWithClapsAudio, 1000);
     }
     var imgName = "smallX" + team;
     var divHoverName = "divHover" + team;
@@ -176,10 +185,10 @@ function showBigX(team, clearPanelsDelay, endRound)
     {
         setTimeout(hideX, 3000);
     }
-    playAudio('resources/wronganswer.wav');
+    playStaticAudio(wrongAnswerAudio);
     if(endRound)
     {
-        playAudioWithDelay('resources/roundsoundwithclaps.wav', 1000);
+        playAudioWithDelay(roundSoundWithClapsAudio, 1000);
     }
 }
 function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn, clearPanelsDelay)
@@ -189,15 +198,15 @@ function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn,
     var divHoverName = "divHoverAnswer" + (answerNumber + 1).toString();
     $("#" + divHoverName).addClass("animate");
     setTimeout(() => {$("#" + divHoverName).removeClass("animate");}, 500);
-    playAudio('resources/correctanswer.wav');
+    playStaticAudio(correntAnswerAudio);
     if(endRound)
     {
-        playAudioWithDelay('resources/roundsoundwithclaps.wav', 1000);
+        playAudioWithDelay(roundSoundWithClapsAudio, 1000);
         return;
     }
     if(isRoundOn)
     {
-        playAudioWithDelay('resources/claps.wav', 1000);
+        playAudioWithDelay(clapsAudio, 1000);
     }
     if(clearPanelsDelay == true)
     {

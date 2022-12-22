@@ -9,30 +9,34 @@
     <title>Familiada</title>
 </head>
 <body>
-    <div id="divStart">
-        <button id="btnCreateGame" disabled="disabled">Utwórz nową grę</button>
-        <button id="btnJoinGame" disabled="disabled">Dołącz do gry</button>
-        <input id="inputGameId" placeholder="Id gry" />
+    <div id="divStart" class="center-screen gold familiada-font">
+        <div id="divFamiliada" class="gold familiada-font">FAMILIADA</div><br/>
+        <button id="btnCreateGame" disabled="disabled">NOWA GRA</button><br/>
+        <button id="btnJoinGame" disabled="disabled">WEJDZ</button>
+        <input id="inputGameId" placeholder="KOD GRY" />
     </div>
-    <div id="divGameId">
+    <div id="divGameId" class="center-screen familiada-font gold">
         <span id="spanGameId"></span>
     </div>
-    <div id="divGameOperator" style="display:none;">
-        <span id="drewQuestion"></span>
-        <br/>
-        <div id="divDrawQuestion">
-            <button id="btnSubmitQuestion">Zatwierdź pytanie</button>
-            <button id="btnDrawQuestion">Wylosuj inne pytanie</button>
+    <div id="divGameOperator" style="display:none;" class="center-screen-top gold">
+        <div>
+            <span id="drewQuestion"></span>
         </div>
-        <div id="divFirstAnsweringTeam" style="display:none;">
-            <span>Zaznacz drużynę, która odpowiada jako pierwsza</span><br/>
-            <input type="radio" id="firstAnsweringTeamLeft" name="first_answering_team" value="Left" onclick="answeringTeamChange(this);" checked="false" >
-            <label for="firstAnsweringTeamLeft">Drużyna Lewa</label><br>
-            <input type="radio" id="firstAnsweringTeamRight" name="first_answering_team" value="Right" onclick="answeringTeamChange(this);" checked="false" >
-            <label for="firstAnsweringTeamRight">Drużyna Prawa</label><br>
-        </div>
-        <div id="divOperatorAnswers">
-
+        <div id="divGameOperatorPanel">
+            <div id="divDrawQuestion" class="gold-button-container">
+                <button id="btnSubmitQuestion">Zatwierdź pytanie</button>
+                <button id="btnDrawQuestion">Wylosuj inne pytanie</button>
+            </div>
+            <div id="divFirstAnsweringTeam" style="display:none;">
+                <span>Zaznacz drużynę, która odpowiada jako pierwsza</span><br/>
+                <input type="radio" id="firstAnsweringTeamLeft" name="first_answering_team" value="Left" onclick="answeringTeamChange(this);" checked="false" >
+                <label for="firstAnsweringTeamLeft">Drużyna Lewa</label><br>
+                <input type="radio" id="firstAnsweringTeamRight" name="first_answering_team" value="Right" onclick="answeringTeamChange(this);" checked="false" >
+                <label for="firstAnsweringTeamRight">Drużyna Prawa</label><br>
+            </div>
+            <div id="divOperatorAnswers" class="gold-button-container">
+    
+            </div>
         </div>
     </div>
     <div id="divHost" style="display: none">
