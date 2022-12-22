@@ -97,12 +97,15 @@ body{
     text-align: center;
 }
 
-.img-wrapper, .img-wrapper-big {
+.img-wrapper {
     position: relative;
 }
 .img-wrapper-big{
     width: 100%;
     height: 100%;
+    margin: -5px;
+    position: absolute;
+    top: 0;
 }
 
 .img-wrapper .hover.animate, .img-wrapper-big .hover.animate{
