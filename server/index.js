@@ -125,7 +125,7 @@ io.on("connection", connection => {
 function getUniqueGameId(){
     while(true)
     {
-        const id = tools.getRandomInt(100000, 999999);
+        const id = tools.getRandomInt(1000, 9999);
         var game = getGameById(id);
         if(game === null)
         {
