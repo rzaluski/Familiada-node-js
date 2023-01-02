@@ -38,7 +38,6 @@ class FamiliadaGame{
         this.isRoundOn = true;
         if(this.round == 4) this.pointsMultiplier = 2;
         if(this.round == 5) this.pointsMultiplier = 3;
-        //PlaySound(Properties.Resources.roundsound);
     }
 
     submitQuestion()
@@ -131,14 +130,7 @@ class FamiliadaGame{
             "teamRightPoints": this.teamPoints[Team.Right],
         };
         this.host.connection.emit(JSON.stringify(payLoad));
-    }
-    emitIsRoundOn()
-    {
-        let payLoad = {
-            "method": "isRoundOn",
-            "isRoundOn": this.isRoundOn
-        };
-        this.gameOperator.connection.emit(JSON.stringify(payLoad));
+        this.sendCurrentAnsweringTeam();
     }
     proceedCorrectAnswer(answerText)
     {
@@ -147,12 +139,10 @@ class FamiliadaGame{
         var answerNumber = this.getAnswerNumber(answerText);
         if(!this.answeredQuestions.includes(answerNumber))
         {
-            //PlaySound(Properties.Resources.correctanswer);
             this.totalAnswers++;
             this.correctAnswers++;
             if(this.isRoundOn)
             {
-                //PlayClapsWithDelay(1000);
                 var pointsToAdd = this.currentQuestion.Answers[answerNumber].Points * this.pointsMultiplier;
                 this.roundPoints += pointsToAdd;
                 if (this.totalAnswers == 1 && answerNumber == 0)
@@ -175,7 +165,6 @@ class FamiliadaGame{
                         this.teamWonBattle = this.currentAnsweringTeam;
                     }
                     this.currentAnsweringTeam = this.teamWonBattle;
-                    //ClearXPanels();
                     clearPanels = true;
                 }
                 else if (this.correctAnswers == this.currentQuestion.Answers.length || this.currentAnsweringTeam != this.teamWonBattle)
@@ -183,8 +172,6 @@ class FamiliadaGame{
                     this.endRound(this.currentAnsweringTeam);
                     endRound = true;
                 }
-                this.emitIsRoundOn();
-                //UpdatePoints();
             }
             this.showAnswer(answerNumber, clearPanels, endRound);
 
@@ -204,7 +191,6 @@ class FamiliadaGame{
             "method": "endRound",
         };
         this.gameOperator.connection.emit(JSON.stringify(payLoad));
-        // PlaySoundWithDelay(Properties.Resources.roundsoundwithclaps, 1000);
     }
     showSmallX(team, endRound)
     {
@@ -217,6 +203,7 @@ class FamiliadaGame{
             "teamRightPoints": this.teamPoints[Team.Right],
         };
         this.host.connection.emit(JSON.stringify(payLoad));
+        this.sendCurrentAnsweringTeam();
     }
     showBigX(team, clearPanelsDelay, endRound)
     {
@@ -230,6 +217,7 @@ class FamiliadaGame{
             "teamRightPoints": this.teamPoints[Team.Right],
         };
         this.host.connection.emit(JSON.stringify(payLoad));
+        this.sendCurrentAnsweringTeam();
     }
     proceedUncorrectAnswer()
     {
@@ -273,7 +261,6 @@ class FamiliadaGame{
         {
             this.endRound(this.getOppositeTeam(teamAnswered));
             endRound = true;
-            // UpdatePoints();
         }
         if(showSmallX)
         {
@@ -283,8 +270,6 @@ class FamiliadaGame{
         {
             this.showBigX(teamAnswered, clearPanelsDelay, endRound);
         }
-        this.emitIsRoundOn();
-        // PlaySound(Properties.Resources.wronganswer);
     }
     getAnswerNumber(answerText)
     {
@@ -295,6 +280,14 @@ class FamiliadaGame{
                 return i;
             }
         }
+    }
+    sendCurrentAnsweringTeam(){
+        let payLoad = {
+            "method": "currentAnsweringTeam",
+            "currentAnsweringTeam": this.currentAnsweringTeam,
+            "isRoundOn": this.isRoundOn,
+        };
+        this.gameOperator.connection.emit(JSON.stringify(payLoad));
     }
 }
 module.exports = FamiliadaGame;

@@ -4,6 +4,15 @@ const roundsoundAudio = new Audio('resources/roundsound.wav');
 const roundSoundWithClapsAudio = new Audio('resources/roundsoundwithclaps.wav');
 const clapsAudio = new Audio('resources/claps.wav');
 const correntAnswerAudio = new Audio('resources/correctanswer.wav');
+
+const FamiliadaGameStates = {
+    PickingQuestion: "PickingQuestion"
+}
+const FamiliadaTeams = {
+    None: "None",
+    Left: "Left",
+    Right: "Right"
+}
 sock.onAny(message =>{
     console.log(message);
     const response = JSON.parse(message);
@@ -75,10 +84,29 @@ sock.onAny(message =>{
             updatePoints(response.roundPoints, response.teamLeftPoints, response.teamRightPoints);
             showBigX(response.team, response.clearPanelsDelay, response.endRound);
         }
+        if(response.method === "currentAnsweringTeam"){
+            $("#divTip").show();
+
+            var teamText = "";
+            if(response.isRoundOn)
+            {
+
+                if(response.currentAnsweringTeam == FamiliadaTeams.Left)
+                {
+                    teamText = "Lewa";
+                }
+                if(response.currentAnsweringTeam == FamiliadaTeams.Right)
+                {
+                    teamText = "Prawa";
+                }
+                $("#spanTip").text("Odpowiada drużyna: " + teamText);
+            }
+            else
+            {
+                $("#spanTip").text("Odsłoń pozostałe odpowiedzi");
+            }
+        }
 });
-const FamiliadaGameStates = {
-    PickingQuestion: "PickingQuestion"
-}
 let gameId = null;
 let pickQuestion = null;
 let currentQuestion = null;
@@ -183,7 +211,7 @@ function showBigX(team, clearPanelsDelay, endRound)
 
     if(clearPanelsDelay == true)
     {
-        setTimeout(hideX, 3000);
+        setTimeout(hideX, 1000);
     }
     playStaticAudio(wrongAnswerAudio);
     if(endRound)
@@ -210,7 +238,7 @@ function showAnswer(answerNumber, answerText, answerPoints, endRound, isRoundOn,
     }
     if(clearPanelsDelay == true)
     {
-        setTimeout(hideX, 3000);
+        setTimeout(hideX, 1000);
     }
 }
 function updatePoints(roundPoints, teamLeftPoints, teamRightPoints)
@@ -266,6 +294,7 @@ btnSubmitQuestion.addEventListener('click', () =>
 
 function createQuestionPanel(question, enabled)
 {
+    $("#divTip").hide();
     $("#drewQuestion").text(question.QuestionText);
 
     var divOperatorAnswers = document.getElementById('divOperatorAnswers');

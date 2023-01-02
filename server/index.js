@@ -19,7 +19,7 @@ httpServer.listen(port, (s) => {
 const io = socketio(httpServer);
 
 var clients = [];
-var games = {};
+let games = new Map();
 
 const fs = require('fs');
 const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
@@ -27,11 +27,8 @@ const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
 io.on("connection", connection => {
     console.log("New connection");
 
-    connection.on("close", () => removeClient(connection));
-    // connection.on("connection", () => console.log("connection"));
-    // connection.on("open", () => {
-        
-    // });
+    connection.on("disconnect", () => removeClient(connection));
+
     clients.push(new GameClient(connection));
     const payLoad = {
         "method": "connected"
@@ -143,6 +140,18 @@ function getGameById(id)
     }
     return game;
 }
+function getGameIdByConnection(conn)
+{
+    var gameId = null;
+    for (var gameId in games) {
+        var game = getGameById(gameId);
+        if(game.host.connection === conn || (game.gameOperator != null && game.gameOperator.connection === conn))
+        {
+            return gameId;
+        }
+    }
+    return null;
+}
 function getClient(conn)
 {
     return clients.find(c => c.connection == conn);
@@ -151,4 +160,10 @@ function getClient(conn)
 function removeClient(conn)
 {
     clients = clients.filter(c => c.connection != conn);
+    var gameId = getGameIdByConnection(conn);
+    console.log('gameId ' + gameId);
+    if(gameId != null)
+    {
+        delete games[gameId];
+    }
 }
