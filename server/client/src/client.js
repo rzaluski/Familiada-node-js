@@ -13,6 +13,12 @@ const FamiliadaTeams = {
     Left: "Left",
     Right: "Right"
 }
+sock.on("disconnect", () => {
+    if(userFunction != "")
+    {
+        $("#divReconnect").show();
+    }
+});
 sock.onAny(message =>{
     console.log(message);
     const response = JSON.parse(message);
@@ -28,6 +34,7 @@ sock.onAny(message =>{
             $('#btnJoinGame').prop('disabled', false);
             $("#divGameId").show();
             $("#spanGameId").text("KOD GRY: " + response.gameId);
+            userFunction = "host";
         }
         if(response.method === "joinedGame"){
             const gameState = response.gameState;
@@ -39,7 +46,7 @@ sock.onAny(message =>{
                 pickQuestion = response.question;
                 createQuestionPanel(response.question, false);
             }
-            console.log(response);
+            userFunction = "gameOperator";
         }
         if(response.method === "gameOperatorExists"){
             console.log("Game already has operator");
@@ -106,12 +113,16 @@ sock.onAny(message =>{
                 $("#spanTip").text("Odsłoń pozostałe odpowiedzi");
             }
         }
+        if(response.method == "reconnected")
+        {
+            $("#divReconnect").hide();
+        }
 });
 let gameId = null;
 let pickQuestion = null;
 let currentQuestion = null;
 let firstAnsweringTeam = null;
-
+let userFunction = "";
 function showQuestion(currentQuestion)
 {
     $("#divHost").show();
@@ -256,6 +267,21 @@ btnCreateGame.addEventListener('click', () =>
         "method": "createGame"
     };
     sock.emit(JSON.stringify(payLoad));
+});
+
+const btnReconnect = document.getElementById("btnReconnect");
+btnReconnect.addEventListener('click', () =>
+{
+    $('#btnReconnect').prop('disabled', true);
+    const payLoad = {
+        "method": "reconnect",
+        "gameId": gameId,
+        "userFunction": userFunction
+    };
+    sock.emit(JSON.stringify(payLoad));
+    setTimeout(() =>{
+        $('#btnReconnect').prop('disabled', false);
+    }, 3000);
 });
 
 const btnJoinGame = document.getElementById("btnJoinGame");

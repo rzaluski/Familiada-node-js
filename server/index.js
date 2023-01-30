@@ -115,6 +115,27 @@ io.on("connection", connection => {
                 game.handleAnswer(answerText, firstAnsweringTeam);
             }
         }
+        if(result.method == "reconnect")
+        {
+            const game = getGameById(result.gameId);
+            const userFunction = result.userFunction;
+            if(userFunction == "gameOperator" && game.gameOperator == null)
+            {
+                game.gameOperator = client;
+                const payLoad = {
+                    "method": "reconnected"
+                };
+                connection.emit(JSON.stringify(payLoad));
+            }
+            else if(userFunction == "host" && game.host == null)
+            {
+                game.host = client;
+                const payLoad = {
+                    "method": "reconnected"
+                };
+                connection.emit(JSON.stringify(payLoad));
+            }
+        }
     });
     
 });
@@ -162,8 +183,21 @@ function removeClient(conn)
     clients = clients.filter(c => c.connection != conn);
     var gameId = getGameIdByConnection(conn);
     console.log('gameId ' + gameId);
+    
     if(gameId != null)
     {
-        delete games[gameId];
+        var game = getGameById(gameId);
+        if(game.host != null && game.host.connection == conn)
+        {
+            game.host = null;
+        }
+        if(game.gameOperator != null && game.gameOperator.connection == conn)
+        {
+            game.gameOperator = null;
+        }
+        if(game.gameOperator == null && game.host == null)
+        {
+            delete games[gameId];
+        }
     }
 }

@@ -236,14 +236,14 @@ body{
     font-weight: bold;
     font-size: 19px;
 }
-.gold-button-container button{
+.gold-button-container button, .gold-button{
     color: gold;
     background-color: black;
     border: gold solid 1px;
     margin-top: 20px;
     min-height: 35px;
 }
-.gold-button-container button:disabled{
+.gold-button-container button:disabled, .gold-button:disabled{
     color: rgb(128, 125, 114);
     border: rgb(128, 125, 114) solid 1px;
     margin-top: 20px;
@@ -252,4 +252,11 @@ body{
 #divDrawQuestion button{
     padding-left: 10px;
     padding-right: 10px;
+}
+#divReconnect{
+    position: absolute;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
 }
