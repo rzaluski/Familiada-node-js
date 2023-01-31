@@ -10,7 +10,7 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-const io = require('socket.io')(httpServer, {pingTimeout: 600000, pingInterval: 100000});
+const io = require('socket.io')(httpServer, {pingTimeout: 5000, pingInterval: 1000});
 
 const port = process.env.PORT || 9090;
 httpServer.listen(port, (s) => {
@@ -117,6 +117,7 @@ io.on("connection", connection => {
         }
         if(result.method == "reconnect")
         {
+            console.log(result);
             const game = getGameById(result.gameId);
             const userFunction = result.userFunction;
             if(userFunction == "gameOperator" && game.gameOperator == null)
@@ -187,32 +188,30 @@ function removeClient(conn)
     if(gameId != null)
     {
         var game = getGameById(gameId);
-        if(game.host != null && game.host.connection == conn)
+        if(game.host != null && game.host.connection === conn)
         {
             game.host = null;
         }
-        if(game.gameOperator != null && game.gameOperator.connection == conn)
+        if(game.gameOperator != null && game.gameOperator.connection === conn)
         {
             game.gameOperator = null;
         }
-    }
+        //delete games that has more that 2 days
+        var gamesToDelete = [];
 
+        for (var gameId in games) {
+            var game = getGameById(gameId);
+            var timeDiff = new Date().getTime() - game.createDate;
+            var daysDiff = timeDiff / (1000 * 3600 * 24);
+            console.log(timeDiff / 1000);
 
-    //delete games that has more that 2 days
-    var gamesToDelete = [];
-
-    for (var gameId in games) {
-        var game = getGameById(gameId);
-        var timeDiff = new Date().getTime() - game.createDate;
-        var daysDiff = timeDiff / (1000 * 3600 * 24);
-        console.log(timeDiff / 1000);
-
-        if (daysDiff >= 2 && game.gameOperator == null && game.host == null) {
-            gamesToDelete.push(gameId);
+            if (daysDiff >= 2 && game.gameOperator == null && game.host == null) {
+                gamesToDelete.push(gameId);
+            }
         }
+        gamesToDelete.forEach(g =>
+        {
+            delete games[g];
+        });
     }
-    gamesToDelete.forEach(g =>
-    {
-        delete games[g];
-    });
 }
