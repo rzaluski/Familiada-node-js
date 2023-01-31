@@ -35,6 +35,7 @@ sock.onAny(message =>{
             $("#divGameId").show();
             $("#spanGameId").text("KOD GRY: " + response.gameId);
             userFunction = "host";
+            gameId = response.gameId;
         }
         if(response.method === "joinedGame"){
             const gameState = response.gameState;
@@ -259,7 +260,7 @@ function updatePoints(roundPoints, teamLeftPoints, teamRightPoints)
     $("#spanTeamRightPoints").text(teamRightPoints);
 }
 const btnCreateGame = document.getElementById("btnCreateGame");
-btnCreateGame.addEventListener('click', () =>
+btnCreateGame.addEventListener('cligameIdck', () =>
 {
     $('#btnCreateGame').prop('disabled', true);
     $('#btnJoinGame').prop('disabled', true);
