@@ -10,7 +10,7 @@ const FamiliadaGame = require('./familiadaGame');
 const FamiliadaGameStates = require('./familiadaGameStates');
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer(app);
-const io = require('socket.io')(httpServer, {pingTimeout: 5000, pingInterval: 1000});
+const io = require('socket.io')(httpServer, {pingTimeout: 600000, pingInterval: 100000});
 
 const port = process.env.PORT || 9090;
 httpServer.listen(port, (s) => {
@@ -18,7 +18,6 @@ httpServer.listen(port, (s) => {
 });
 
 // const io = socketio(httpServer);
-console.log(io);
 var clients = [];
 let games = new Map();
 
@@ -26,7 +25,6 @@ const fs = require('fs');
 const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
 
 io.on("connection", connection => {
-    console.log(connection);
     console.log("New connection");
 
     connection.on("disconnect", () => removeClient(connection));
