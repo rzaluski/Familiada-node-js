@@ -5,6 +5,12 @@ const roundSoundWithClapsAudio = new Audio('resources/roundsoundwithclaps.wav');
 const clapsAudio = new Audio('resources/claps.wav');
 const correntAnswerAudio = new Audio('resources/correctanswer.wav');
 
+let gameId = null;
+let pickQuestion = null;
+let currentQuestion = null;
+let firstAnsweringTeam = null;
+let userFunction = "";
+
 const FamiliadaGameStates = {
     PickingQuestion: "PickingQuestion"
 }
@@ -119,11 +125,6 @@ sock.onAny(message =>{
             $("#divReconnect").hide();
         }
 });
-let gameId = null;
-let pickQuestion = null;
-let currentQuestion = null;
-let firstAnsweringTeam = null;
-let userFunction = "";
 function showQuestion(currentQuestion)
 {
     $("#divHost").show();
@@ -260,7 +261,7 @@ function updatePoints(roundPoints, teamLeftPoints, teamRightPoints)
     $("#spanTeamRightPoints").text(teamRightPoints);
 }
 const btnCreateGame = document.getElementById("btnCreateGame");
-btnCreateGame.addEventListener('cligameIdck', () =>
+btnCreateGame.addEventListener('click', () =>
 {
     $('#btnCreateGame').prop('disabled', true);
     $('#btnJoinGame').prop('disabled', true);
