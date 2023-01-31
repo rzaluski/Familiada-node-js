@@ -24,6 +24,7 @@ class FamiliadaGame{
         this.teamPoints[Team.Right] = 0;
         this.teamWonBattle = Team.None;
         this.currentAnsweringTeam = Team.None;
+        this.createDate = new Date();
     }
 
     newRound()

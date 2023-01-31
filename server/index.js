@@ -166,7 +166,7 @@ function getGameIdByConnection(conn)
     var gameId = null;
     for (var gameId in games) {
         var game = getGameById(gameId);
-        if(game.host.connection === conn || (game.gameOperator != null && game.gameOperator.connection === conn))
+        if((game.host != null && game.host.connection === conn) || (game.gameOperator != null && game.gameOperator.connection === conn))
         {
             return gameId;
         }
@@ -195,9 +195,24 @@ function removeClient(conn)
         {
             game.gameOperator = null;
         }
-        if(game.gameOperator == null && game.host == null)
-        {
-            delete games[gameId];
+    }
+
+
+    //delete games that has more that 2 days
+    var gamesToDelete = [];
+
+    for (var gameId in games) {
+        var game = getGameById(gameId);
+        var timeDiff = new Date().getTime() - game.createDate;
+        var daysDiff = timeDiff / (1000 * 3600 * 24);
+        console.log(timeDiff / 1000);
+
+        if (daysDiff >= 2 && game.gameOperator == null && game.host == null) {
+            gamesToDelete.push(gameId);
         }
     }
+    gamesToDelete.forEach(g =>
+    {
+        delete games[g];
+    });
 }
