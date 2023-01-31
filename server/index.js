@@ -119,23 +119,30 @@ io.on("connection", connection => {
         {
             console.log(result);
             const game = getGameById(result.gameId);
-            const userFunction = result.userFunction;
-            if(userFunction == "gameOperator" && game.gameOperator == null)
+            if(game != null)
             {
-                game.gameOperator = client;
-                const payLoad = {
-                    "method": "reconnected"
-                };
-                connection.emit(JSON.stringify(payLoad));
+                const userFunction = result.userFunction;
+                if(userFunction == "gameOperator" && game.gameOperator == null)
+                {
+                    game.gameOperator = client;
+                    const payLoad = {
+                        "method": "reconnected"
+                    };
+                    connection.emit(JSON.stringify(payLoad));
+                }
+                else if(userFunction == "host" && game.host == null)
+                {
+                    game.host = client;
+                    const payLoad = {
+                        "method": "reconnected"
+                    };
+                    connection.emit(JSON.stringify(payLoad));
+                }
             }
-            else if(userFunction == "host" && game.host == null)
-            {
-                game.host = client;
-                const payLoad = {
-                    "method": "reconnected"
-                };
-                connection.emit(JSON.stringify(payLoad));
+            else{
+                console.log('Cannot find game: ' + result.gameId)
             }
+            
         }
     });
     
