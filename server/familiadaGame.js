@@ -69,18 +69,19 @@ class FamiliadaGame{
     {
         const nextRound = this.round + 1;
         var tempQuestions = null;
-        if(nextRound < 4)
-        {
-            tempQuestions = this.getFilterQuestions(6, 10);
-        }
-        else if(nextRound == 4)
-        {
-            tempQuestions = this.getFilterQuestions(4, 5);
-        }
-        else if(nextRound > 4)
-        {
-            tempQuestions = this.getFilterQuestions(1, 3);
-        }
+        tempQuestions = this.getFilterQuestions(1, 10);
+        // if(nextRound < 4)
+        // {
+        //     tempQuestions = this.getFilterQuestions(6, 10);
+        // }
+        // else if(nextRound == 4)
+        // {
+        //     tempQuestions = this.getFilterQuestions(4, 5);
+        // }
+        // else if(nextRound > 4)
+        // {
+        //     tempQuestions = this.getFilterQuestions(1, 3);
+        // }
         this.currentQuestion = tempQuestions[tools.getRandomInt(0, tempQuestions.length - 1)]
         return this.currentQuestion;
     }
