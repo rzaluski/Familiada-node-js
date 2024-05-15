@@ -27,7 +27,11 @@ const questions = JSON.parse(fs.readFileSync(`${__dirname}/questions.json`));
 io.on("connection", connection => {
     console.log("New connection");
 
-    connection.on("disconnect", () => removeClient(connection));
+    connection.on("disconnect", () => 
+    {
+        console.log("Disconnected");
+        removeClient(connection);
+    });
 
     clients.push(new GameClient(connection));
     const payLoad = {
